@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CA Labor Analysis — May 3–9, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1a1a2e;--ink2:#2d2d4a;--surface:#f4f3ef;--card:#fff;--border:#dddbd4;
+  --muted:#8a8880;--dim:#b5b3ac;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --amber:#c47b00;--amber-bg:#fff5e0;
+  --red:#c0392b;--red-bg:#fce8e6;
+  --blue:#1a5fa8;--blue-bg:#e8f0fb;
+  --accent:#2563eb;
+}
+body{font-family:Barlow,sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;}
+.header{background:var(--ink);padding:24px 32px 20px;position:relative;overflow:hidden;}
+.header::after{content:'LABOR';position:absolute;right:-10px;top:-10px;font-family:Barlow Condensed,sans-serif;font-size:140px;font-weight:800;color:rgba(255,255,255,0.03);pointer-events:none;}
+.h-eyebrow{font-family:Barlow Condensed,sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.h-title{font-family:Barlow Condensed,sans-serif;font-size:34px;font-weight:800;color:#fff;line-height:1;}
+.h-sub{font-size:12px;color:rgba(255,255,255,0.45);margin-top:5px;}
+.h-meta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.h-kpi{text-align:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 16px;}
+.h-kpi-val{font-family:JetBrains Mono,monospace;font-size:20px;font-weight:700;color:#fff;line-height:1;}
+.h-kpi-val.good{color:#4cd98a;}.h-kpi-val.warn{color:#f5a623;}.h-kpi-val.info{color:#60a5fa;}
+.h-kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,0.4);margin-top:2px;}
+.nav{background:var(--ink2);display:flex;overflow-x:auto;flex-wrap:nowrap;}
+.nav-btn{padding:11px 18px;font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.45);border:none;background:none;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
+.nav-btn:hover{color:rgba(255,255,255,0.8);}
+.nav-btn.active{color:#fff;border-bottom-color:var(--accent);}
+.tab-page{display:none;}.tab-page.active{display:block;}
+.page{max-width:1200px;margin:0 auto;padding:24px 28px 60px;}
+.sec-title{font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border);}
+/* Key insight banner */
+.key-banner{background:linear-gradient(135deg,#0f2347,#1a3a6b);border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+.key-banner-icon{font-size:28px;flex-shrink:0;}
+.key-banner-text{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.6;}
+.key-banner-text strong{color:#60a5fa;}
+/* Summary cards */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.sum-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+.sum-card.good{border-left:3px solid var(--green);}
+.sum-card.warn{border-left:3px solid var(--amber);}
+.sum-card.info{border-left:3px solid var(--blue);}
+.sum-card.urgent{border-left:3px solid var(--red);}
+.sum-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.sum-card.good .sum-tag{color:var(--green);}
+.sum-card.warn .sum-tag{color:var(--amber);}
+.sum-card.info .sum-tag{color:var(--blue);}
+.sum-card.urgent .sum-tag{color:var(--red);}
+.sum-val{font-family:JetBrains Mono,monospace;font-size:24px;font-weight:700;color:var(--ink);line-height:1;}
+.sum-sub{font-size:11px;color:var(--muted);margin-top:5px;}
+/* Table */
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow-x:auto;margin-bottom:24px;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+thead tr{background:var(--ink);}
+thead th{padding:10px 12px;text-align:left;font-family:Barlow Condensed,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,0.6);white-space:nowrap;}
+thead th.r{text-align:right;}
+tbody tr{border-top:1px solid var(--border);transition:background .1s;}
+tbody tr:hover{background:#f9f8f5;}
+tbody td{padding:10px 12px;font-size:12px;vertical-align:middle;}
+tbody td.r{text-align:right;}
+tfoot tr{border-top:2px solid var(--border);background:#f4f3ef;}
+tfoot td{padding:10px 12px;font-size:12px;font-weight:600;}
+tfoot td.r{text-align:right;}
+.loc-name{font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;}
+.mono{font-family:JetBrains Mono,monospace;font-size:11px;}
+.pill{display:inline-block;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;font-family:JetBrains Mono,monospace;}
+.pill-green{background:var(--green-bg);color:var(--green);}
+.pill-amber{background:var(--amber-bg);color:var(--amber);}
+.pill-red{background:var(--red-bg);color:var(--red);}
+.pill-blue{background:var(--blue-bg);color:var(--blue);}
+/* TPPH bar */
+.tpph-bar-row{display:flex;align-items:center;gap:10px;padding:6px 18px;border-top:1px solid var(--border);}
+.tpph-bar-loc{font-family:Barlow Condensed,sans-serif;font-size:13px;font-weight:700;color:var(--ink);width:190px;flex-shrink:0;}
+.tpph-bar-track{flex:1;height:8px;background:#e8e6e0;border-radius:4px;overflow:hidden;}
+.tpph-bar-fill{height:100%;border-radius:4px;}
+.tpph-bar-val{font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;width:38px;text-align:right;flex-shrink:0;}
+.tpph-bar-gc{font-size:10px;color:var(--dim);width:60px;text-align:right;flex-shrink:0;}
+/* Scorecard */
+#scorecardWrap{position:relative;width:100%;height:480px;}
+#scTooltip{display:none;position:fixed;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;font-size:11px;pointer-events:none;z-index:999;min-width:190px;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+/* Patch cards */
+.patch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;}
+/* Insight cards */
+.insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+.insight-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 20px;}
+.insight-card.critical{border-top:3px solid var(--red);}
+.insight-card.positive{border-top:3px solid var(--green);}
+.insight-card.warning{border-top:3px solid var(--amber);}
+.insight-card.info{border-top:3px solid var(--blue);}
+.insight-tag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;}
+.insight-card.critical .insight-tag{color:var(--red);}
+.insight-card.positive .insight-tag{color:var(--green);}
+.insight-card.warning .insight-tag{color:var(--amber);}
+.insight-card.info .insight-tag{color:var(--blue);}
+.insight-title{font-family:Barlow Condensed,sans-serif;font-size:16px;font-weight:700;margin-bottom:6px;}
+.insight-body{font-size:12px;color:var(--muted);line-height:1.7;}
+.insight-body strong{color:var(--ink);}
+@media(max-width:900px){
+  .summary-grid{grid-template-columns:repeat(2,1fr);}
+  .insights-grid{grid-template-columns:1fr;}
+  .patch-grid{grid-template-columns:1fr;}
+  .page{padding:16px 14px 40px;}
+  .header{padding:18px 18px 16px;}
+  .h-title{font-size:26px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="h-eyebrow">California Operations</div>
+  <div class="h-title">Labor Analysis &mdash; Week of May 3&ndash;9, 2026</div>
+  <div class="h-sub">34 Locations &nbsp;&middot;&nbsp; TPPH Portfolio Avg: 6.91 &nbsp;&middot;&nbsp; Higher wage model &mdash; productivity expectations above standard benchmark</div>
+  <div class="h-meta">
+    <div class="h-kpi"><div class="h-kpi-val good">6.91</div><div class="h-kpi-lbl">Portfolio TPPH</div></div>
+    <div class="h-kpi"><div class="h-kpi-val good">-2,366</div><div class="h-kpi-lbl">Hrs Under Need</div></div>
+    <div class="h-kpi"><div class="h-kpi-val good">-$45,187</div><div class="h-kpi-lbl">Opp Cost (Savings)</div></div>
+    <div class="h-kpi"><div class="h-kpi-val warn">22.9%</div><div class="h-kpi-lbl">Avg Labor %</div></div>
+    <div class="h-kpi"><div class="h-kpi-val info">$18.96</div><div class="h-kpi-lbl">Avg Wage Rate</div></div>
+    <div class="h-kpi"><div class="h-kpi-val info">36,902</div><div class="h-kpi-lbl">Total Act Hrs</div></div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('overview',this)">Overview</button>
+  <button class="nav-btn" onclick="showTab('hours',this)">Hours vs Need</button>
+  <button class="nav-btn" onclick="showTab('tpph',this)">TPPH Rankings</button>
+  <button class="nav-btn" onclick="showTab('scorecard',this)">Health Scorecard</button>
+  <button class="nav-btn" onclick="showTab('patches',this)">Supervisor Patches</button>
+  <button class="nav-btn" onclick="showTab('insights',this)">Insights</button>
+</div>
+
+<div id="scTooltip"></div>
+
+<!-- OVERVIEW -->
+<div class="tab-page active" id="page-overview">
+<div class="page">
+
+  <div class="key-banner">
+    <div class="key-banner-icon">&#128200;</div>
+    <div class="key-banner-text">California ran <strong>2,366 hours under need</strong> this week &mdash; the portfolio is lean and productive. At a portfolio TPPH of <strong>6.91</strong>, every location clears the 6.00 goal. California&rsquo;s higher starting wages drive stronger productivity and lower turnover, which means the expectation here is a <em>higher</em> TPPH threshold than a standard benchmark. The hours vs need gap reflects crews running efficiently above base expectations &mdash; not a scheduling shortfall. <strong>7433 Imelda Cortez</strong> is the one location running over need (+96 hrs) and needs attention.</div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="sum-card good">
+      <div class="sum-tag">Top TPPH</div>
+      <div class="sum-val">8.73</div>
+      <div class="sum-sub">1313 Destiny Baker &mdash; best in California, 416 hrs under need</div>
+    </div>
+    <div class="sum-card info">
+      <div class="sum-tag">All Above Goal</div>
+      <div class="sum-val">34 / 34</div>
+      <div class="sum-sub">every location above 6.00 &mdash; CA higher-wage model drives stronger results</div>
+    </div>
+    <div class="sum-card warn">
+      <div class="sum-tag">Over-Scheduled</div>
+      <div class="sum-val">1313</div>
+      <div class="sum-sub">7433 Imelda Cortez only location over need (+96 hrs, $1,768)</div>
+    </div>
+    <div class="sum-card good">
+      <div class="sum-tag">Biggest Saving</div>
+      <div class="sum-val">-$8,529</div>
+      <div class="sum-sub">1313 Destiny Baker &mdash; 416 hrs under need, efficient operation</div>
+    </div>
+  </div>
+
+  <div class="sec-title">Full Portfolio &mdash; Labor Summary</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Location</th><th>GM</th><th>Supervisor</th>
+          <th class="r">Act Hrs</th><th class="r">Hrs Needed</th><th class="r">Vs Need</th>
+          <th class="r">TPPH</th><th class="r">Labor %</th><th class="r">Avg Rate</th>
+          <th class="r">Opp Cost</th>
+        </tr>
+      </thead>
+      <tbody id="overviewBody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Portfolio Total (34 locations)</td>
+          <td class="r mono">36,902</td><td class="r mono">39,267</td>
+          <td class="r"><span class="pill pill-green">-2,366</span></td>
+          <td class="r mono" style="color:var(--green);font-weight:700;">6.91</td>
+          <td class="r mono">22.9%</td><td class="r mono">$18.96</td>
+          <td class="r mono" style="color:var(--green);">-$45,187</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- HOURS VS NEED -->
+<div class="tab-page" id="page-hours">
+<div class="page">
+  <div class="sec-title">Hours Scheduled vs Hours Needed &mdash; May 3&ndash;9</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;background:#f8f7f4;">
+      <div style="font-size:11px;color:var(--muted);"><span class="pill pill-red" style="margin-right:6px;">Red</span>Over-scheduled &mdash; paying for hours above demand</div>
+      <div style="font-size:11px;color:var(--muted);"><span class="pill pill-amber" style="margin-right:6px;">Amber</span>Under need &mdash; reflects higher productivity expectations; monitor peak service speed</div>
+      <div style="font-size:11px;color:var(--muted);"><span class="pill pill-green" style="margin-right:6px;">Green</span>Within &plusmn;30 hrs of need &mdash; on target</div>
+    </div>
+    <table>
+      <thead><tr>
+        <th>Location</th><th>GM</th><th class="r">Actual Hrs</th><th class="r">Hrs Needed</th>
+        <th class="r">Difference</th><th class="r">Opp Cost</th><th class="r">Opp Cost %</th>
+        <th class="r">TPPH</th><th>Status</th>
+      </tr></thead>
+      <tbody id="hoursBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- TPPH -->
+<div class="tab-page" id="page-tpph">
+<div class="page">
+  <div class="sec-title">TPPH Rankings &mdash; Goal: 6.00</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--ink);">
+      <div style="font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:700;color:#fff;">Transactions Per Paid Hour &mdash; Best to Worst</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px;">All 34 locations above 6.00 goal &nbsp;&middot;&nbsp; Green = 7.00+ &nbsp;&middot;&nbsp; Amber = 6.00&ndash;6.99 &nbsp;&middot;&nbsp; Red = below 6.00</div>
+    </div>
+    <div id="tpphBars" style="padding:6px 0;"></div>
+  </div>
+  <div class="sec-title">TPPH Detail Table</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Location</th><th>GM</th><th class="r">TPPH</th><th class="r">vs Goal</th>
+        <th class="r">Act Hrs</th><th class="r">Hrs Needed</th><th class="r">Hrs Diff</th>
+        <th class="r">GC</th><th class="r">Labor %</th>
+      </tr></thead>
+      <tbody id="tpphBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- HEALTH SCORECARD -->
+<div class="tab-page" id="page-scorecard">
+<div class="page">
+  <div class="sec-title">Labor Health Scorecard &mdash; TPPH vs Hours Efficiency</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:24px;">
+    <div style="padding:14px 18px;border-bottom:1px solid var(--border);background:var(--ink);">
+      <div style="font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:700;color:#fff;">Productivity vs Efficiency &mdash; 34 Locations</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px;">X axis: Hours vs Need &nbsp;&middot;&nbsp; Y axis: TPPH &nbsp;&middot;&nbsp; Hover a dot for details</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:9px 16px;border-right:1px solid var(--border);background:#f0f9f4;font-size:11px;color:var(--green);font-weight:600;">&#9650; High TPPH + Under Need = Best in class</div>
+      <div style="padding:9px 16px;background:#fff9f0;font-size:11px;color:var(--amber);font-weight:600;">&#9650; High TPPH + Over Need = Productive but over-staffed</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+      <div style="padding:9px 16px;border-right:1px solid var(--border);background:#fff9f0;font-size:11px;color:var(--amber);font-weight:600;">&#9660; Low TPPH + Under Need = Stretched, not delivering</div>
+      <div style="padding:9px 16px;background:#fdf0f0;font-size:11px;color:var(--red);font-weight:600;">&#9660; Low TPPH + Over Need = Biggest cost problem</div>
+    </div>
+    <div style="padding:16px 20px;"><div id="scorecardWrap"></div></div>
+    <div id="scLegend" style="padding:10px 20px 16px;display:flex;flex-wrap:wrap;gap:16px;border-top:1px solid var(--border);"></div>
+  </div>
+</div>
+</div>
+
+<!-- SUPERVISOR PATCHES -->
+<div class="tab-page" id="page-patches">
+<div class="page">
+  <div class="sec-title">Supervisor Patch Summary</div>
+  <div class="patch-grid" id="patchCards"></div>
+</div>
+</div>
+
+<!-- INSIGHTS -->
+<div class="tab-page" id="page-insights">
+<div class="page">
+  <div class="sec-title">Key Findings &mdash; Week of May 3&ndash;9, 2026</div>
+  <div class="insights-grid">
+    <div class="insight-card positive">
+      <div class="insight-tag">&#10003; Portfolio Achievement</div>
+      <div class="insight-title">All 34 Locations Above TPPH Goal</div>
+      <div class="insight-body">Every California location cleared the 6.00 TPPH benchmark this week. The portfolio average of <strong>6.91</strong> is well above goal, driven by experienced, well-retained crews. This reflects lean, well-deployed crews. The challenge is not productivity &mdash; it is making sure the under-staffing at busy locations does not start to erode service speed and guest experience.</div>
+    </div>
+    <div class="insight-card positive">
+      <div class="insight-tag">&#10003; Best in Class</div>
+      <div class="insight-title">1313 Destiny Baker &mdash; 8.73 TPPH</div>
+      <div class="insight-body">Highest TPPH in California at <strong>8.73</strong> while running <strong>416 hours under need</strong>. Labor % of <strong>19.4%</strong> is among the best in the portfolio. Actual hours of 1,908 versus a need of 2,324 shows Destiny is generating more transactions per hour than any other GM. This is the productivity benchmark &mdash; supervisor Frances Alvarado should use this location as a teaching example for the patch.</div>
+    </div>
+    <div class="insight-card warning">
+      <div class="insight-tag">&#9888; Watch &mdash; Under-Staffing Risk</div>
+      <div class="insight-title">Portfolio Running 2,366 Hours Under Need</div>
+      <div class="insight-body">While being under need saves money on paper, the risk is that crews are stretched during peak periods. Locations running more than <strong>100 hours under need</strong> this week include <strong>1313 (-416 hrs)</strong>, <strong>11124 Cassandra Campbell (-166 hrs)</strong>, <strong>10865 Maria Figueroa (-156 hrs)</strong>, and <strong>40959 Jose Sanchez (-151 hrs)</strong>. OEPE and guest experience should be monitored closely at these locations.</div>
+    </div>
+    <div class="insight-card urgent">
+      <div class="insight-tag">&#9888; Action Required</div>
+      <div class="insight-title">7433 Imelda Cortez &mdash; Only Over-Scheduled Location</div>
+      <div class="insight-body"><strong>7433</strong> is the only location running over need at <strong>+96 hours</strong>, generating <strong>$1,768 in unnecessary labor cost</strong>. At a TPPH of 6.19 &mdash; the lowest in the portfolio &mdash; the extra hours are not producing extra productivity. Sales came in $6,064 below projection this week. Ray Marez needs to review scheduling structure and crew deployment at this location immediately.</div>
+    </div>
+    <div class="insight-card info">
+      <div class="insight-tag">&#128200; Context &mdash; Why CA Runs Differently</div>
+      <div class="insight-title">Higher Wages Drive Higher Productivity and Lower Turnover</div>
+      <div class="insight-body">California&rsquo;s higher starting wages attract and retain stronger crew, which is reflected in the portfolio TPPH of <strong>6.91</strong> and an average wage rate of <strong>$18.96/hr</strong>. Lower turnover means crews are more experienced, more efficient, and better deployed at peak. The hours vs need gap is not a scheduling failure &mdash; it reflects crews delivering above the base demand expectation. The management conversation in CA is about protecting crew capacity during peak periods and ensuring the under-need hours don&rsquo;t create service speed gaps when traffic spikes.</div>
+    </div>
+    <div class="insight-card warning">
+      <div class="insight-tag">&#9651; Rate Watch</div>
+      <div class="insight-title">6891, 6853, 17470 &mdash; Highest Wage Rates</div>
+      <div class="insight-body">Three locations are running average rates above <strong>$21.00/hr</strong>: <strong>6891 Maria Martinez ($21.04)</strong>, <strong>17470 Tammy Martin ($21.15)</strong>, and <strong>21383 Janeth Alvarez ($21.02)</strong>. All three are under Sylvia Corona. At these rates, every hour over need carries significantly more cost. Scheduling precision at these locations is critical &mdash; the margin for error is lower than the portfolio average.</div>
+    </div>
+  </div>
+
+  <div class="sec-title">Summary Recommendations</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 24px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div>
+        <div style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">This Week &mdash; Action Required</div>
+        <div style="font-size:12px;color:var(--ink);line-height:2.1;">
+          1. Review <strong>7433 Imelda Cortez</strong> &mdash; only over-scheduled location, lowest TPPH<br>
+          2. Monitor OEPE at <strong>1313, 11124, 10865, 40959</strong> &mdash; 100+ hrs under need<br>
+          3. Sylvia Corona: scheduling review at <strong>6891, 17470, 21383</strong> given $21+ wage rates<br>
+          4. Celebrate <strong>Destiny Baker</strong> at 1313 &mdash; 8.73 TPPH is exceptional
+        </div>
+      </div>
+      <div>
+        <div style="font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Longer Term</div>
+        <div style="font-size:12px;color:var(--ink);line-height:2.1;">
+          1. Establish <strong>peak period OEPE tracking</strong> for locations running 100+ hrs under need<br>
+          2. Use <strong>1313</strong> as the labor efficiency model for patch-level conversations<br>
+          3. Use TPPH floor of <strong>6.50</strong> as the CA-specific alert threshold given higher wage expectations<br>
+          4. Revisit <strong>7433</strong> floor need calculation &mdash; may be set too low given sales trend
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.tab-page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+
+var SUP_COLORS = {
+  'Frances Alvarado':'#1a5fa8','Michelle Uribe':'#1a7a4a','Elton Perez':'#c0392b',
+  'Mona Aguilar':'#7b3fa8','Raymond Gallardo':'#b87a00','Ray Marez':'#0097a7',
+  'Sylvia Corona':'#e65100','Mike Van Houten':'#2e7d32'
+};
+
+var DATA = [
+  {loc:'1313', gm:'Destiny Baker',    sup:'Frances Alvarado',  tpph:8.73, actHrs:1907.97, needHrs:2323.50, vsNeed:-415.53, laborPct:0.1939, avgRate:20.52, gc:16649, oppCost:-8528.50},
+  {loc:'2327', gm:'Lenny Munguia',    sup:'Michelle Uribe',    tpph:6.93, actHrs:1045.41, needHrs:1072.25, vsNeed:-26.84,  laborPct:0.2409, avgRate:18.35, gc:7247,  oppCost:-492.60},
+  {loc:'4235', gm:'Emilia Lezama',    sup:'Elton Perez',       tpph:6.89, actHrs:1263.61, needHrs:1358.50, vsNeed:-94.89,  laborPct:0.2361, avgRate:19.42, gc:8707,  oppCost:-1842.86},
+  {loc:'6853', gm:'Eloina Lopez',     sup:'Mona Aguilar',      tpph:6.04, actHrs:907.88,  needHrs:888.91,  vsNeed:18.97,   laborPct:0.2322, avgRate:17.37, gc:5485,  oppCost:329.59},
+  {loc:'6891', gm:'Maria Martinez',   sup:'Sylvia Corona',     tpph:7.01, actHrs:1293.30, needHrs:1338.00, vsNeed:-44.70,  laborPct:0.2513, avgRate:21.04, gc:9071,  oppCost:-940.45},
+  {loc:'7013', gm:'Luis Yepez',       sup:'Ray Marez',         tpph:7.02, actHrs:830.85,  needHrs:939.16,  vsNeed:-108.31, laborPct:0.2066, avgRate:19.25, gc:5831,  oppCost:-2084.46},
+  {loc:'7433', gm:'Imelda Cortez',    sup:'Ray Marez',         tpph:6.19, actHrs:859.59,  needHrs:763.50,  vsNeed:96.09,   laborPct:0.2321, avgRate:18.40, gc:5318,  oppCost:1768.43},
+  {loc:'7703', gm:'Cris Reeves',      sup:'Ray Marez',         tpph:6.91, actHrs:1273.01, needHrs:1386.23, vsNeed:-113.22, laborPct:0.2294, avgRate:20.24, gc:8798,  oppCost:-2291.04},
+  {loc:'7932', gm:'Gloria Huizar',    sup:'Elton Perez',       tpph:6.98, actHrs:1494.13, needHrs:1594.98, vsNeed:-100.85, laborPct:0.2110, avgRate:18.45, gc:10422, oppCost:-1860.37},
+  {loc:'10150',gm:'Yvonne Sylvia',    sup:'Mona Aguilar',      tpph:6.89, actHrs:1084.93, needHrs:1168.25, vsNeed:-83.32,  laborPct:0.2166, avgRate:17.25, gc:7478,  oppCost:-1437.21},
+  {loc:'10865',gm:'Maria Figueroa',   sup:'Raymond Gallardo',  tpph:7.58, actHrs:1008.21, needHrs:1163.98, vsNeed:-155.77, laborPct:0.1933, avgRate:17.00, gc:7645,  oppCost:-2648.77},
+  {loc:'11124',gm:'Cassandra Campbell',sup:'Elton Perez',      tpph:6.97, actHrs:1116.04, needHrs:1282.25, vsNeed:-166.21, laborPct:0.2116, avgRate:18.19, gc:7777,  oppCost:-3022.94},
+  {loc:'11529',gm:'Soran Meyers',     sup:'Sylvia Corona',     tpph:7.33, actHrs:1121.14, needHrs:1211.25, vsNeed:-90.11,  laborPct:0.2765, avgRate:20.97, gc:8219,  oppCost:-1889.39},
+  {loc:'11744',gm:'Sabrina Rocha',    sup:'Frances Alvarado',  tpph:6.63, actHrs:1439.11, needHrs:1539.73, vsNeed:-100.62, laborPct:0.1878, avgRate:17.30, gc:9540,  oppCost:-1740.27},
+  {loc:'12566',gm:'Reyes Charnin',    sup:'Raymond Gallardo',  tpph:6.35, actHrs:660.88,  needHrs:725.75,  vsNeed:-64.87,  laborPct:0.2262, avgRate:19.56, gc:4194,  oppCost:-1269.11},
+  {loc:'13669',gm:'Bree Alvidrez',    sup:'Michelle Uribe',    tpph:6.80, actHrs:1006.43, needHrs:1016.50, vsNeed:-10.07,  laborPct:0.2594, avgRate:19.38, gc:6842,  oppCost:-195.20},
+  {loc:'16753',gm:'Monica Garcia',    sup:'Raymond Gallardo',  tpph:6.83, actHrs:761.64,  needHrs:797.25,  vsNeed:-35.61,  laborPct:0.2146, avgRate:19.07, gc:5205,  oppCost:-679.09},
+  {loc:'17470',gm:'Tammy Martin',     sup:'Sylvia Corona',     tpph:6.65, actHrs:929.65,  needHrs:924.02,  vsNeed:5.63,    laborPct:0.2750, avgRate:21.15, gc:6182,  oppCost:119.06},
+  {loc:'21383',gm:'Janeth Alvarez',   sup:'Sylvia Corona',     tpph:7.12, actHrs:1345.58, needHrs:1375.12, vsNeed:-29.54,  laborPct:0.2455, avgRate:21.02, gc:9574,  oppCost:-620.85},
+  {loc:'22228',gm:'Monique Castro',   sup:'Mona Aguilar',      tpph:6.52, actHrs:1156.89, needHrs:1142.96, vsNeed:13.93,   laborPct:0.2298, avgRate:17.40, gc:7543,  oppCost:242.38},
+  {loc:'22694',gm:'Juan Gomez',       sup:'Michelle Uribe',    tpph:6.89, actHrs:754.86,  needHrs:805.25,  vsNeed:-50.39,  laborPct:0.2103, avgRate:18.33, gc:5198,  oppCost:-923.46},
+  {loc:'24135',gm:'Ashley Andujar',   sup:'Michelle Uribe',    tpph:7.38, actHrs:1185.44, needHrs:1298.25, vsNeed:-112.81, laborPct:0.2101, avgRate:18.69, gc:8752,  oppCost:-2108.91},
+  {loc:'24497',gm:'Paola Martinez',   sup:'Elton Perez',       tpph:7.16, actHrs:1157.71, needHrs:1136.25, vsNeed:21.46,   laborPct:0.2356, avgRate:18.97, gc:8292,  oppCost:407.09},
+  {loc:'24797',gm:'Alex Beltran',     sup:'Michelle Uribe',    tpph:7.09, actHrs:1303.53, needHrs:1401.25, vsNeed:-97.72,  laborPct:0.2201, avgRate:18.15, gc:9246,  oppCost:-1773.23},
+  {loc:'25117',gm:'Ana Godinez',      sup:'Sylvia Corona',     tpph:7.27, actHrs:1363.32, needHrs:1349.96, vsNeed:13.36,   laborPct:0.2639, avgRate:20.91, gc:9914,  oppCost:279.35},
+  {loc:'26499',gm:'Itzel Negrete',    sup:'Mike Van Houten',   tpph:6.35, actHrs:594.20,  needHrs:610.75,  vsNeed:-16.55,  laborPct:0.2180, avgRate:18.64, gc:3773,  oppCost:-308.47},
+  {loc:'27493',gm:'Ana Hernandez',    sup:'Frances Alvarado',  tpph:6.97, actHrs:1391.19, needHrs:1499.40, vsNeed:-108.21, laborPct:0.2146, avgRate:18.59, gc:9691,  oppCost:-2011.74},
+  {loc:'32107',gm:'Jennifer Lagace',  sup:'Mona Aguilar',      tpph:6.55, actHrs:1193.19, needHrs:1205.75, vsNeed:-12.56,  laborPct:0.2255, avgRate:16.90, gc:7817,  oppCost:-212.23},
+  {loc:'36285',gm:'Viviana Gutierrez',sup:'Frances Alvarado',  tpph:6.54, actHrs:1156.14, needHrs:1223.19, vsNeed:-67.05,  laborPct:0.2225, avgRate:18.06, gc:7560,  oppCost:-1210.71},
+  {loc:'37958',gm:'Martha Perez',     sup:'Raymond Gallardo',  tpph:7.15, actHrs:810.06,  needHrs:885.50,  vsNeed:-75.44,  laborPct:0.2131, avgRate:17.63, gc:5791,  oppCost:-1329.83},
+  {loc:'38349',gm:'Evelyn Gonzalez',  sup:'Sylvia Corona',     tpph:7.35, actHrs:1139.30, needHrs:1228.75, vsNeed:-89.45,  laborPct:0.2560, avgRate:20.97, gc:8371,  oppCost:-1875.39},
+  {loc:'38616',gm:'Brenda Ramos',     sup:'Mona Aguilar',      tpph:6.29, actHrs:1012.70, needHrs:1054.75, vsNeed:-42.05,  laborPct:0.2633, avgRate:19.66, gc:6368,  oppCost:-826.82},
+  {loc:'39954',gm:'Angela Cruz',      sup:'Mike Van Houten',   tpph:7.01, actHrs:771.65,  needHrs:843.00,  vsNeed:-71.35,  laborPct:0.2292, avgRate:19.09, gc:5410,  oppCost:-1362.01},
+  {loc:'40959',gm:'Jose Sanchez',     sup:'Raymond Gallardo',  tpph:6.61, actHrs:562.38,  needHrs:713.32,  vsNeed:-150.94, laborPct:0.2245, avgRate:18.86, gc:3717,  oppCost:-2846.68}
+];
+
+var GOAL = 6.0;
+
+function tpphColor(t){return t>=7?'var(--green)':t>=GOAL?'var(--amber)':'var(--red)';}
+function vsNeedPill(v){
+  if(Math.abs(v)<=30) return '<span class="pill pill-green">'+fmt(v)+'</span>';
+  if(v>0)             return '<span class="pill pill-red">+'+v.toFixed(1)+'</span>';
+  return '<span class="pill pill-amber">'+v.toFixed(1)+'</span>';
+}
+function fmt(v){return (v>=0?'+':'')+v.toFixed(1);}
+function fmtMoney(v){return (v<0?'-$':'$')+Math.abs(v).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+
+// Overview table
+var ob = document.getElementById('overviewBody');
+DATA.forEach(function(r){
+  var tr = document.createElement('tr');
+  var oppCol = r.oppCost>100?'var(--red)':r.oppCost<-500?'var(--green)':'var(--muted)';
+  tr.innerHTML =
+    '<td><span class="loc-name">'+r.loc+'</span></td>'+
+    '<td style="font-size:12px;">'+r.gm+'</td>'+
+    '<td style="font-size:11px;color:var(--muted);">'+r.sup+'</td>'+
+    '<td class="r mono">'+r.actHrs.toFixed(0)+'</td>'+
+    '<td class="r mono">'+r.needHrs.toFixed(0)+'</td>'+
+    '<td class="r">'+vsNeedPill(r.vsNeed)+'</td>'+
+    '<td class="r"><span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+tpphColor(r.tpph)+';">'+r.tpph.toFixed(2)+'</span></td>'+
+    '<td class="r mono">'+(r.laborPct*100).toFixed(1)+'%</td>'+
+    '<td class="r mono">$'+r.avgRate.toFixed(2)+'</td>'+
+    '<td class="r mono" style="color:'+oppCol+';">'+fmtMoney(r.oppCost)+'</td>';
+  ob.appendChild(tr);
+});
+
+// Hours vs Need
+var hb = document.getElementById('hoursBody');
+var sorted_h = DATA.slice().sort(function(a,b){return b.vsNeed-a.vsNeed;});
+sorted_h.forEach(function(r){
+  var status,cls;
+  if(r.vsNeed>30){status='Over-scheduled';cls='pill-red';}
+  else if(r.vsNeed<-30){status='Under-scheduled';cls='pill-amber';}
+  else{status='On Target';cls='pill-green';}
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><span class="loc-name">'+r.loc+'</span> <span style="font-size:11px;color:var(--muted);">'+r.gm+'</span></td>'+
+    '<td class="r mono">'+r.actHrs.toFixed(1)+'</td>'+
+    '<td class="r mono">'+r.needHrs.toFixed(1)+'</td>'+
+    '<td class="r">'+vsNeedPill(r.vsNeed)+'</td>'+
+    '<td class="r mono" style="color:'+(r.oppCost>0?'var(--red)':'var(--green)')+';">'+fmtMoney(r.oppCost)+'</td>'+
+    '<td class="r mono">'+(r.oppCost/r.needHrs*100).toFixed(2)+'%</td>'+
+    '<td class="r"><span style="font-family:JetBrains Mono,monospace;font-size:12px;font-weight:700;color:'+tpphColor(r.tpph)+';">'+r.tpph.toFixed(2)+'</span></td>'+
+    '<td><span class="pill '+cls+'">'+status+'</span></td>';
+  hb.appendChild(tr);
+});
+
+// TPPH bars
+var barsEl = document.getElementById('tpphBars');
+var sorted_t = DATA.slice().sort(function(a,b){return b.tpph-a.tpph;});
+var maxT = 9.5;
+sorted_t.forEach(function(r){
+  var pct = Math.min(100,r.tpph/maxT*100);
+  var vs  = r.tpph - GOAL;
+  var div = document.createElement('div');
+  div.className = 'tpph-bar-row';
+  div.innerHTML =
+    '<div class="tpph-bar-loc">'+r.loc+' <span style="font-size:10px;color:var(--muted);font-weight:400;">'+r.gm+'</span></div>'+
+    '<div class="tpph-bar-track"><div class="tpph-bar-fill" style="width:'+pct+'%;background:'+tpphColor(r.tpph)+';"></div></div>'+
+    '<div class="tpph-bar-val" style="color:'+tpphColor(r.tpph)+';">'+r.tpph.toFixed(2)+'</div>'+
+    '<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:var(--green);width:44px;text-align:right;">+'+vs.toFixed(2)+'</div>'+
+    '<div class="tpph-bar-gc">'+r.gc.toLocaleString()+' GC</div>';
+  barsEl.appendChild(div);
+});
+
+// TPPH detail table
+var tb = document.getElementById('tpphBody');
+sorted_t.forEach(function(r){
+  var vs = r.tpph - GOAL;
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><span class="loc-name">'+r.loc+'</span></td>'+
+    '<td style="font-size:12px;">'+r.gm+'</td>'+
+    '<td class="r"><span style="font-family:JetBrains Mono,monospace;font-size:13px;font-weight:700;color:'+tpphColor(r.tpph)+';">'+r.tpph.toFixed(2)+'</span></td>'+
+    '<td class="r mono" style="color:var(--green);">+'+vs.toFixed(2)+'</td>'+
+    '<td class="r mono">'+r.actHrs.toFixed(0)+'</td>'+
+    '<td class="r mono">'+r.needHrs.toFixed(0)+'</td>'+
+    '<td class="r">'+vsNeedPill(r.vsNeed)+'</td>'+
+    '<td class="r mono">'+r.gc.toLocaleString()+'</td>'+
+    '<td class="r mono">'+(r.laborPct*100).toFixed(1)+'%</td>';
+  tb.appendChild(tr);
+});
+
+// Scorecard SVG
+(function buildScorecard(){
+  var wrap = document.getElementById('scorecardWrap');
+  if(!wrap) return;
+  var xVals = DATA.map(function(r){return r.vsNeed;});
+  var yVals = DATA.map(function(r){return r.tpph;});
+  var xMin = Math.floor(Math.min.apply(null,xVals)-15);
+  var xMax = Math.ceil(Math.max.apply(null,xVals)+15);
+  var yMin = Math.floor((Math.min.apply(null,yVals)-0.2)*2)/2;
+  var yMax = Math.ceil((Math.max.apply(null,yVals)+0.2)*2)/2;
+  var W = wrap.offsetWidth||800, H = 480;
+  var padL=56,padR=24,padT=28,padB=52;
+  var cW=W-padL-padR, cH=H-padT-padB;
+  function xPx(v){return padL+(v-xMin)/(xMax-xMin)*cW;}
+  function yPx(v){return padT+(1-(v-yMin)/(yMax-yMin))*cH;}
+  var gx=xPx(0), gy=yPx(GOAL);
+  var s=['<svg width="'+W+'" height="'+H+'" style="display:block;overflow:visible;">'];
+  s.push('<rect x="'+padL+'" y="'+padT+'" width="'+(gx-padL)+'" height="'+(gy-padT)+'" fill="rgba(26,122,74,0.06)"/>');
+  s.push('<rect x="'+gx+'" y="'+padT+'" width="'+(padL+cW-gx)+'" height="'+(gy-padT)+'" fill="rgba(255,171,64,0.07)"/>');
+  s.push('<rect x="'+padL+'" y="'+gy+'" width="'+(gx-padL)+'" height="'+(padT+cH-gy)+'" fill="rgba(255,171,64,0.06)"/>');
+  s.push('<rect x="'+gx+'" y="'+gy+'" width="'+(padL+cW-gx)+'" height="'+(padT+cH-gy)+'" fill="rgba(192,57,43,0.07)"/>');
+  var xStep = (xMax-xMin)<=150?20:40;
+  for(var xv=Math.ceil(xMin/xStep)*xStep;xv<=xMax;xv+=xStep){
+    var px=xPx(xv);
+    s.push('<line x1="'+px+'" y1="'+padT+'" x2="'+px+'" y2="'+(padT+cH)+'" stroke="#e0ddd6" stroke-width="1"/>');
+    s.push('<text x="'+px+'" y="'+(padT+cH+16)+'" text-anchor="middle" font-size="10" fill="#b5b3ac">'+(xv>=0?'+':'')+xv+'h</text>');
+  }
+  for(var yv=yMin;yv<=yMax+0.01;yv=Math.round((yv+0.5)*10)/10){
+    var py=yPx(yv);
+    s.push('<line x1="'+padL+'" y1="'+py+'" x2="'+(padL+cW)+'" y2="'+py+'" stroke="#e0ddd6" stroke-width="1"/>');
+    s.push('<text x="'+(padL-6)+'" y="'+(py+3.5)+'" text-anchor="end" font-size="10" fill="#b5b3ac">'+yv.toFixed(1)+'</text>');
+  }
+  s.push('<line x1="'+padL+'" y1="'+gy+'" x2="'+(padL+cW)+'" y2="'+gy+'" stroke="#c47b00" stroke-width="1.5" stroke-dasharray="6,4"/>');
+  s.push('<line x1="'+gx+'" y1="'+padT+'" x2="'+gx+'" y2="'+(padT+cH)+'" stroke="#c47b00" stroke-width="1.5" stroke-dasharray="6,4"/>');
+  s.push('<text x="'+(padL+6)+'" y="'+(gy-5)+'" font-size="9" font-weight="bold" fill="#c47b00">Goal 6.00</text>');
+  s.push('<text x="'+(padL+8)+'" y="'+(padT+15)+'" font-size="10" font-weight="bold" fill="rgba(26,122,74,0.55)">BEST IN CLASS</text>');
+  s.push('<text x="'+(padL+cW-8)+'" y="'+(padT+cH-8)+'" font-size="10" font-weight="bold" fill="rgba(192,57,43,0.55)" text-anchor="end">ACT HERE</text>');
+  s.push('<text x="'+(padL+cW/2)+'" y="'+(H-4)+'" font-size="10" fill="#8a8880" text-anchor="middle">Hours vs Need (negative = under, positive = over)</text>');
+  DATA.forEach(function(r){
+    var cx=xPx(r.vsNeed), cy=yPx(r.tpph);
+    var color=SUP_COLORS[r.sup]||'#888';
+    s.push('<circle cx="'+cx+'" cy="'+cy+'" r="9" fill="'+color+'" stroke="#fff" stroke-width="2" class="sc-dot" data-loc="'+r.loc+'" style="cursor:pointer;"/>');
+    s.push('<text x="'+cx+'" y="'+(cy-12)+'" text-anchor="middle" font-size="8" font-weight="bold" fill="#1a1a2e" style="pointer-events:none;">'+r.loc+'</text>');
+  });
+  s.push('</svg>');
+  wrap.innerHTML = s.join('');
+  wrap.style.height = H+'px';
+  var tip = document.getElementById('scTooltip');
+  wrap.querySelectorAll('.sc-dot').forEach(function(dot){
+    dot.addEventListener('mouseover',function(){
+      var r = DATA.find(function(d){return d.loc===dot.getAttribute('data-loc');});
+      if(!r||!tip)return;
+      var col = r.tpph>=7?'#4cd98a':r.tpph>=6?'#f5a623':'#ff6b6b';
+      tip.style.display='block';
+      tip.innerHTML='<div style="font-family:Barlow Condensed,sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;">'+r.loc+' &mdash; '+r.gm+'</div>'+
+        '<div style="color:rgba(255,255,255,0.5);font-size:10px;margin-bottom:8px;">'+r.sup+'</div>'+
+        '<div style="display:grid;grid-template-columns:auto auto;gap:4px 14px;font-size:11px;">'+
+        '<span style="color:rgba(255,255,255,0.5);">TPPH</span><span style="font-weight:700;color:'+col+';">'+r.tpph.toFixed(2)+'</span>'+
+        '<span style="color:rgba(255,255,255,0.5);">Hrs vs Need</span><span>'+(r.vsNeed>=0?'+':'')+r.vsNeed.toFixed(1)+'h</span>'+
+        '<span style="color:rgba(255,255,255,0.5);">Act Hrs</span><span>'+r.actHrs.toFixed(0)+'</span>'+
+        '<span style="color:rgba(255,255,255,0.5);">Labor %</span><span>'+(r.laborPct*100).toFixed(1)+'%</span>'+
+        '<span style="color:rgba(255,255,255,0.5);">Avg Rate</span><span>$'+r.avgRate.toFixed(2)+'</span>'+
+        '<span style="color:rgba(255,255,255,0.5);">Opp Cost</span><span style="color:'+(r.oppCost>0?'#ff6b6b':'#4cd98a')+';">'+fmtMoney(r.oppCost)+'</span>'+
+        '</div>';
+    });
+    dot.addEventListener('mousemove',function(e){if(tip){tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY-10)+'px';}});
+    dot.addEventListener('mouseleave',function(){if(tip)tip.style.display='none';});
+  });
+  var leg = document.getElementById('scLegend');
+  if(leg){leg.innerHTML=Object.keys(SUP_COLORS).sort().map(function(s){
+    return '<div style="display:flex;align-items:center;gap:6px;font-size:11px;"><div style="width:12px;height:12px;border-radius:50%;background:'+SUP_COLORS[s]+';"></div>'+s+'</div>';
+  }).join('');}
+})();
+
+// Supervisor patch cards
+(function buildPatches(){
+  var pc = document.getElementById('patchCards');
+  if(!pc)return;
+  var patches={};
+  DATA.forEach(function(r){
+    if(!patches[r.sup])patches[r.sup]={locs:[],totalHrs:0,totalNeed:0,gcSum:0,tpphWt:0,totalOpp:0};
+    var p=patches[r.sup];
+    p.locs.push(r);p.totalHrs+=r.actHrs;p.totalNeed+=r.needHrs;
+    p.gcSum+=r.gc;p.tpphWt+=r.tpph*r.gc;p.totalOpp+=r.oppCost;
+  });
+  Object.keys(patches).sort().forEach(function(sup){
+    var p=patches[sup];
+    var avgTPPH=p.tpphWt/p.gcSum;
+    var vsNeed=p.totalHrs-p.totalNeed;
+    var color=SUP_COLORS[sup]||'#888';
+    var tpphCol=avgTPPH>=7?'var(--green)':avgTPPH>=6?'var(--amber)':'var(--red)';
+    var vsCol=vsNeed>30?'var(--red)':vsNeed<-30?'var(--amber)':'var(--green)';
+    var locRows=p.locs.sort(function(a,b){return b.tpph-a.tpph;}).map(function(r){
+      var bar=Math.round(Math.max(0,Math.min(100,r.tpph/9.5*100)));
+      var bc=r.tpph>=7?'var(--green)':r.tpph>=6?'var(--amber)':'var(--red)';
+      return '<div style="display:flex;align-items:center;gap:8px;padding:5px 14px;border-top:1px solid var(--border);">'+
+        '<div style="font-size:11px;color:var(--ink);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+r.loc+' &mdash; '+r.gm+'</div>'+
+        '<div style="width:44px;height:4px;background:#e8e6e0;border-radius:2px;overflow:hidden;flex-shrink:0;"><div style="width:'+bar+'%;height:100%;background:'+bc+';border-radius:2px;"></div></div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700;color:'+bc+';width:34px;text-align:right;">'+r.tpph.toFixed(1)+'</div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:10px;color:'+(r.vsNeed>15?'var(--red)':r.vsNeed<-15?'var(--amber)':'var(--muted)')+';width:48px;text-align:right;">'+(r.vsNeed>=0?'+':'')+r.vsNeed.toFixed(0)+'h</div>'+
+      '</div>';
+    }).join('');
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--card);border:1px solid var(--border);border-top:3px solid '+color+';border-radius:10px;overflow:hidden;';
+    card.innerHTML=
+      '<div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">'+
+        '<div><div style="font-family:Barlow Condensed,sans-serif;font-size:17px;font-weight:800;color:'+color+';">'+sup+'</div>'+
+        '<div style="font-size:10px;color:var(--muted);">'+p.locs.length+' locations</div></div>'+
+        '<div style="display:flex;gap:10px;">'+
+          '<div style="text-align:center;"><div style="font-family:JetBrains Mono,monospace;font-size:17px;font-weight:700;color:'+tpphCol+';">'+avgTPPH.toFixed(2)+'</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Avg TPPH</div></div>'+
+          '<div style="text-align:center;"><div style="font-family:JetBrains Mono,monospace;font-size:17px;font-weight:700;color:'+vsCol+';">'+(vsNeed>=0?'+':'')+Math.round(vsNeed)+'</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Hrs vs Need</div></div>'+
+          '<div style="text-align:center;"><div style="font-family:JetBrains Mono,monospace;font-size:15px;font-weight:700;color:'+(p.totalOpp>500?'var(--red)':p.totalOpp<-1000?'var(--green)':'var(--muted)')+';">'+fmtMoney(p.totalOpp)+'</div><div style="font-size:9px;color:var(--muted);text-transform:uppercase;">Opp Cost</div></div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);padding:5px 14px 2px;display:grid;grid-template-columns:1fr 44px 34px 48px;gap:8px;">'+
+        '<span>Location / GM</span><span style="text-align:right;">TPPH</span><span></span><span style="text-align:right;">Hrs</span>'+
+      '</div>'+
+      locRows;
+    pc.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>
